@@ -1,0 +1,1 @@
+#File to contain relevant interfaces for the bean-scraper file and the file system of the machine it runs on

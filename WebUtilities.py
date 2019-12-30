@@ -1,0 +1,1 @@
+#File to contain relevant interfaces for the bean-scraper file and accessing the web

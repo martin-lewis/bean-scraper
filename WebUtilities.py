@@ -1,5 +1,6 @@
 #File to contain relevant interfaces for the bean-scraper file and accessing the web
 import urllib3
+import os
 
 #Takes a url and a filepath and downloads the file to that filepath
 #Note the file path must contain the filetype, runs from root folder (i.e. location of scripts)
@@ -17,3 +18,7 @@ def downloadFile(url, filepath):
     else:
         print("Error in download, status code: " + str(r.status)) #If it fails, error code returned
         return False
+
+#Checks to see if a file exists
+def checkFile(filepath):
+    return os.path.isfile(filepath)

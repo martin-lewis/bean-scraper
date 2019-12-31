@@ -18,8 +18,3 @@ def downloadFile(url, filepath):
     else:
         print("Error in download, status code: " + str(r.status)) #If it fails, error code returned
         return False
-
-#Checks to see if a file exists
-#Very simple for now as it just calls the os method but it might need to be expanded later hence the interface
-def checkFile(filepath):
-    return os.path.isfile(filepath)

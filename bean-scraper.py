@@ -2,10 +2,11 @@
 import FileUtilities as fileUtil
 import WebUtilities as webUtil
 import os
+import time
 
 print("Starting Bean Scraper") #Test line
 #webUtil.downloadFile("https://traffic.libsyn.com/secure/yogpod/Triforce_109_-_Postcode_Killah.mp3?dest-id=25170", "test3.mp3")
-
+print(fileUtil.checkDir(".rss"))
 
 
 #Start up operations before start
@@ -52,4 +53,6 @@ while True:
             quit()
         else:
             print("Not a valid option")
+            time.sleep(1)
+            
     #break

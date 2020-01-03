@@ -44,6 +44,23 @@ def getPodcastName(url):
         for node1 in node.getElementsByTagName('title'): #Accesses the title elements within the channel
             return node1.firstChild.data #Returns the first title element which should be the title of the podcast
 
+#Given a filepath it will locate any urls within enclose tags
+#This assumes that only files exist in enclose tags and that no files exist outside enclose tags
+#Assumes each enclosure exists within an item along with a title element
+#Returns a tuple of a title (string) and then a url
+def getEnclosedLinks(filepath):
+    foundUrls = [] #List to hold found pairs
+    doc = minidom.parse(filepath) #Parses the given file
+    for item in doc.getElementsByTagName('item'): #Runs through all items
+        title = item.getElementsByTagName('title')[0].firstChild.data #Gets the title
+        url = item.getElementsByTagName('enclosure')[0].getAttribute('url') #Gets the url
+        tup = (title, url) #Forms tuple
+        foundUrls.append(tup) #Tuple added to list
+    return foundUrls
 
+#Testing
 print("Starting Test")
-print(getPodcastName("https://audioboom.com/channels/2399216.rss"))
+results = getEnclosedLinks(".rss/Qu")
+for result in results:
+    print(result[0])
+    print(result[1])

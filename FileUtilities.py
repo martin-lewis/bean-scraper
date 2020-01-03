@@ -1,5 +1,6 @@
 #File to contain relevant interfaces for the bean-scraper file and the file system of the machine it runs on
 import os
+from xml.dom import minidom #Imports the XML parser
 
 #Checks to see if a file exists
 #Very simple for now as it just calls the os method but it might need to be expanded later hence the interface
@@ -28,3 +29,14 @@ def findFileName(url):
     for i in range(len(url)-1, 0, -1):
         if (url[i] == '/'):
             return (url[i+1:len(url)])
+
+
+##XML STUFF
+
+#Gets the name of a podcast from the filepath to the downloaded rss feed
+#Makes the assumption the title is in element title within a channel element which is the child of the root node
+def getPodcastName(filepath):
+    doc = minidom.parse(filepath) #Parses the given file
+    for node in doc.getElementsByTagName('channel'): #Access the channel element
+        return node.getElementsByTagName('title')[0].firstChild.data #From the channel it gets all elements called title and then accesses the first
+        #then gets the data from the first data piece which is the name of the title

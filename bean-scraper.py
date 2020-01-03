@@ -33,6 +33,35 @@ def updatePodcast(rssUrl, podcastName): #Podcast name is in use for a place to p
         else:
             print("file exists:" + filename) #If its already downloaded then nothing happens
 
+#Takes the url of a podcast and updates the local files
+def updatePodcastXML(url):
+    #First get the podcasts name
+    name = fileUtil.getPodcastName(url) #Gets the name from the url
+    if (name == None): #Checks if it has found no name
+        print("Error - Podcast has no name...") #If so this is an error
+        return
+    #Downloading the rss file
+    print("Downloading rss file for: " + name)
+    webUtil.downloadFile(url, (".rss/" + name)) #Downloads the rss file
+    urls = fileUtil.getEnclosedLinks(".rss/" + name) #Gets the enclosed links and titles from the file
+    #Check for a folder
+    podcastFolderExists = fileUtil.checkDir(name)
+    if (not(podcastFolderExists)):
+        os.mkdir(name)
+    #Run the urls
+    for url in urls:
+        fileAlreadyExists = fileUtil.checkFile(name + "/" + url[0]) #Checks to see if the file is already downloaded
+        if (not(fileAlreadyExists)): #If not
+            print("Fetching new file: " + url[0])
+            webUtil.downloadFile(url[1], name + "/" + url[0]) #Download the file to the correct location
+        else:
+            print("file exists:" + url[0]) #If its already downloaded then nothing happens
+
+
+
+
+
+
 ##Main
 
 print("Starting Bean Scraper") #Test line
@@ -67,7 +96,7 @@ for feed in feeds:
     print(feed)
 """
 #Test rss download
-t = updatePodcast("https://anchor.fm/s/cd90d44/podcast/rss", "Qu")
+t = updatePodcastXML("https://anchor.fm/s/cd90d44/podcast/rss")
 
 #Main program loop
 while True:

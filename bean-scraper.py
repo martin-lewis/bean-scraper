@@ -57,6 +57,14 @@ def updatePodcastXML(url):
         else:
             print("file exists:" + url[0]) #If its already downloaded then nothing happens
 
+##Functions for running the menu
+
+#Takes a url and adds it to the .feeds
+#Just adds the given string to the file
+def addPodcast(url):
+    file = open(".feeds", 'a')
+    file.writelines(url + "\n")
+    file.close
 
 
 
@@ -96,7 +104,7 @@ for feed in feeds:
     print(feed)
 """
 #Test rss download
-t = updatePodcastXML("https://anchor.fm/s/cd90d44/podcast/rss")
+#t = updatePodcastXML("https://anchor.fm/s/cd90d44/podcast/rss")
 
 #Main program loop
 while True:
@@ -106,13 +114,15 @@ while True:
         print("1 - Update Podcasts\n2 - Add a Podcast\n3 - Remove a Podcast\nQ - Quit")
         response = input("Select an option\n")
         if (response == "1"):
-            print("Not implimented")
+            print("Not implemented")
             selected = True
         elif (response == "2"):
-            print("Not implimented")
+            feedToAdd = input("Enter the URL of the RSS feed\n")
+            ##TODO: Some validation? See issue #6
+            addPodcast(feedToAdd)
             selected = True
         elif (response == "3"):
-            print("Not implimented")
+            print("Not implemented")
             selected = True
         elif ((response == "Q") | (response == "q")):
             quit()

@@ -38,23 +38,32 @@ def filePathCompliant(path):
     for char in path:
         if (char == '<'):
             print("Illegal Character '<'")
+            return False
         elif (char == '>'):
             print("Illegal Character '>'")
+            return False
         elif (char == ':'):
             print("Illegal Character ':'")
+            return False
         elif (char == '\"'):
             print("Illegal Character '\"'")
+            return False
         elif (char == '/'):
             print("Illegal Character '/'")
+            return False
         elif (char == '\\'):
             print("Illegal Character '\\'")
+            return False
         elif (char == '|'):
             print("Illegal Character '|'")
+            return False
         elif (char == '?'):
             print("Illegal Character '?'")
+            return False
         elif (char == '*'):
             print("Illegal Character '*'")
-    return
+            return False
+    return True
     
 
 ##XML STUFF
@@ -91,4 +100,4 @@ for result in results:
     print(result[0])
     print(result[1])
 """
-filePathCompliant("dav|\"e*")
+print(filePathCompliant("dave"))

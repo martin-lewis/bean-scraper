@@ -35,8 +35,13 @@ def findFileName(url):
 
 #Gets the name of a podcast from the filepath to the downloaded rss feed
 #Makes the assumption the title is in element title within a channel element which is the child of the root node
+#If the code does not find a title then it will return a None
 def getPodcastName(filepath):
     doc = minidom.parse(filepath) #Parses the given file
     for node in doc.getElementsByTagName('channel'): #Access the channel element
-        return node.getElementsByTagName('title')[0].firstChild.data #From the channel it gets all elements called title and then accesses the first
-        #then gets the data from the first data piece which is the name of the title
+        for node1 in node.getElementsByTagName('title'):
+            return node1.firstChild.data
+
+
+print("Starting Test")
+print(getPodcastName(".rss/Qu"))

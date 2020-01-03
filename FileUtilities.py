@@ -32,6 +32,31 @@ def findFileName(url):
             return (url[i+1:len(url)])
 
 
+#Takes a string and checks if there are any illegal characters for a file path
+#Somewhat basic
+def filePathCompliant(path):
+    for char in path:
+        if (char == '<'):
+            print("Illegal Character '<'")
+        elif (char == '>'):
+            print("Illegal Character '>'")
+        elif (char == ':'):
+            print("Illegal Character ':'")
+        elif (char == '\"'):
+            print("Illegal Character '\"'")
+        elif (char == '/'):
+            print("Illegal Character '/'")
+        elif (char == '\\'):
+            print("Illegal Character '\\'")
+        elif (char == '|'):
+            print("Illegal Character '|'")
+        elif (char == '?'):
+            print("Illegal Character '?'")
+        elif (char == '*'):
+            print("Illegal Character '*'")
+    return
+    
+
 ##XML STUFF
 
 #Gets the name of a podcast from the url of an rss feed
@@ -59,8 +84,11 @@ def getEnclosedLinks(filepath):
     return foundUrls
 
 #Testing
+"""
 print("Starting Test")
 results = getEnclosedLinks(".rss/Qu")
 for result in results:
     print(result[0])
     print(result[1])
+"""
+filePathCompliant("dav|\"e*")

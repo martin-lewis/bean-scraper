@@ -135,10 +135,29 @@ while True:
             selected = True
         elif (response == "3"):
             #TODO: Print All podcasts
+            names = getPodcasts()
+            if (len(names) == 0): #If there are no podcasts then none can be removed
+                print("No podcasts")
+                time.sleep(1)
+                selected = True
+            else: #If there are podcasts
+                print("Current Podcasts are:")
+                for i in range(0,len(names)):
+                    print(str(i+1) + " - " + names[i]) #Prints current podcasts
+                toRemove = input("Select which podcast to remove\n") #Take a value representing which to remove
+                try:
+                    val = int(toRemove)
+                    if ((val > 0) & (val <= len(names))):
+                        removePodcast(val)
+                        selected = True
 
-            toRemove = input("Select which podcast to remove")
-            removePodcast(toRemove)
-            selected = True
+                    else:
+                        print("Not a valid number")
+                        time.sleep(1)
+                except ValueError:
+                    #Handle the exception
+                    print("Not a number")
+                    time.sleep(1)
         elif (response == "4"):
             #print("Not implemented")
             names = getPodcasts()

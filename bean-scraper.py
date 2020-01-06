@@ -60,13 +60,25 @@ def updatePodcastXML(url):
 ##Functions for running the menu
 
 #Takes a url and adds it to the .feeds
-#Just adds the given string to the file
+#Just adds the given string to the file along with the name of the podcast
 def addPodcast(url):
+    name = fileUtil.getPodcastName(url) #Gets the name of the podcast
     file = open(".feeds", 'a')
-    file.writelines(url + "\n")
+    file.writelines(url + "," + name + "\n")
     file.close
 
+def removePodcast(number):
+    print("Not Implemented")
 
+#Returns a list of names from the .feeds file
+def getPodcasts():
+    file = open(".feeds", 'r') #opens file to read it
+    names = [] #Gets a list for the names
+    for line in file: #Runs through the lines
+        splitLine = line.split(',') #Splits on the ,
+        names.append(splitLine[1]) #Gets the name, the second item in the line
+    file.close #Closes the file
+    return names
 
 
 
@@ -111,7 +123,7 @@ while True:
     print("Welcome to Bean Scraper\nPlease select an option")
     selected = False
     while not(selected):
-        print("1 - Update Podcasts\n2 - Add a Podcast\n3 - Remove a Podcast\nQ - Quit")
+        print("1 - Update Podcasts\n2 - Add a Podcast\n3 - Remove a Podcast\n4 - Show current Podcasts\nQ - Quit")
         response = input("Select an option\n")
         if (response == "1"):
             print("Not implemented")
@@ -122,7 +134,20 @@ while True:
             addPodcast(feedToAdd)
             selected = True
         elif (response == "3"):
-            print("Not implemented")
+            #TODO: Print All podcasts
+
+            toRemove = input("Select which podcast to remove")
+            removePodcast(toRemove)
+            selected = True
+        elif (response == "4"):
+            #print("Not implemented")
+            names = getPodcasts()
+            if (len(names) == 0):
+                print("No podcasts")
+            else:
+                print("Current Podcasts are:")
+                for i in range(0,len(names)):
+                    print(str(i+1) + " - " + names[i])
             selected = True
         elif ((response == "Q") | (response == "q")):
             quit()

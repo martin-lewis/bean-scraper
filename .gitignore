@@ -4,3 +4,5 @@ __pycache__/
 .feeds
 .rss
 .temprss
+podcasturls.txt
+testfile.txt

@@ -13,6 +13,18 @@ def checkFile(filepath):
 def checkDir(dirpath):
     return os.path.exists(dirpath)
 
+#Removes the given line from a file
+def removeLine(lineNo, filepath):
+    lines = []
+    file1 = open(filepath, 'r') #Opens the file to read
+    for line in file1: #Gets all lines
+        lines.append(line) #Stores the lines
+    file1.close()
+    file1 = open(filepath, 'w') #Opens the file overwritting it
+    del lines[lineNo-1]
+    file1.writelines(lines)
+
+
 #Takes a string and checks if there are any illegal characters for a file path
 #Somewhat basic
 def filePathCompliant(path):
@@ -94,4 +106,4 @@ for result in results:
     print(result[0])
     print(result[1])
 """
-#print(cleanForLinux("hello/ Iam!^"))
+#removeLine(6, "testfile.txt")

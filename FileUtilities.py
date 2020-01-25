@@ -45,7 +45,19 @@ def filePathCompliant(path):
             print("Illegal Character '*'")
             return False
     return True
-    
+
+#Takes a name which would become part of a file path and removes invalid stuff
+#Here we define invalid as not a-z 0-9 or select punctuation
+def cleanForLinux(name):
+    validChars = ""
+    for char in name:
+        val = ord(char)
+        if ((val != 47) & (val >= 32) & (val <= 122)): #Allows all unicode characters 32 to 122 excluding 47 (forward slash)
+            validChars = validChars + char
+    return validChars
+
+
+
 
 ##XML STUFF
 
@@ -69,6 +81,7 @@ def getEnclosedLinks(filepath):
     for item in doc.getElementsByTagName('item'): #Runs through all items
         title = item.getElementsByTagName('title')[0].firstChild.data #Gets the title
         url = item.getElementsByTagName('enclosure')[0].getAttribute('url') #Gets the url
+        title = cleanForLinux(title) #Removes any invalid characters from the title
         tup = (title, url) #Forms tuple
         foundUrls.append(tup) #Tuple added to list
     return foundUrls
@@ -81,4 +94,4 @@ for result in results:
     print(result[0])
     print(result[1])
 """
-#print(filePathCompliant("dave"))
+#print(cleanForLinux("hello/ Iam!^"))

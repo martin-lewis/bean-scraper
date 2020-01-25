@@ -166,10 +166,12 @@ while True:
             if (len(names) == 0):
                 print("No podcasts")
             else:
-                print("Current Podcasts are:")
+                print("\nCurrent Podcasts are:")
                 for i in range(0,len(names)):
                     print(str(i+1) + " - " + names[i])
+                print("\n")
             selected = True
+            time.sleep(1)
         elif ((response == "Q") | (response == "q")):
             quit()
         else:

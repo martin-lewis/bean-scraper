@@ -16,7 +16,7 @@ def updatePodcast(rssUrl, podcastName): #Podcast name is in use for a place to p
     #Look through each line for an audio file
     urls =[] #List for found urls
     for line in rss: #for each line
-        result = fileUtil.fileUrlScraper(line) #Check for file urls
+        result = webUtil.fileUrlScraper(line) #Check for file urls
         if (result != None): #If a result is returned then
             urls.append(result) #Added to list
     #Make sure there is a folder to hold them
@@ -25,7 +25,7 @@ def updatePodcast(rssUrl, podcastName): #Podcast name is in use for a place to p
         os.mkdir(podcastName)
     #Downloads the files
     for url in urls:
-        filename = fileUtil.findFileName(url) #Find the file name from the url
+        filename = webUtil.findFileName(url) #Find the file name from the url
         fileAlreadyExists = fileUtil.checkFile(podcastName + "/" + filename) #Check if it has already been downloaded
         if (not(fileAlreadyExists)): #If not
             print("Fetching new file: " + filename)

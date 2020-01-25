@@ -86,7 +86,7 @@ def getPodcasts():
 
 ##Main
 
-print("Starting Bean Scraper") #Test line
+print("Starting Bean Scraper") #Welcome Line
 
 #Start up operations before start
 #Data structure and variable creation
@@ -107,18 +107,11 @@ else: #If there is one it needs to read it
     feedsFile.close()
 
 #Rss folder
-feedsFolderExists = fileUtil.checkDir(".rss")
-if (not(feedsFolderExists)):
+feedsFolderExists = fileUtil.checkDir(".rss") #Checks if the folder exists
+if (not(feedsFolderExists)): #If not creates it
     print("Making folder")
     os.mkdir(".rss")
 
-""" Test lines
-print("Current feeds:")
-for feed in feeds:
-    print(feed)
-"""
-#Test rss download
-#t = updatePodcastXML("https://anchor.fm/s/cd90d44/podcast/rss")
 
 #Main program loop
 while True:
@@ -130,12 +123,12 @@ while True:
         if (response == "1"):
             print("Not implemented")
             selected = True
-        elif (response == "2"):
+        elif (response == "2"): #Add Podcast
             feedToAdd = input("Enter the URL of the RSS feed\n")
             ##TODO: Some validation? See issue #6
             addPodcast(feedToAdd)
             selected = True
-        elif (response == "3"):
+        elif (response == "3"): #Remove Podcast
             #TODO: Print All podcasts
             names = getPodcasts()
             if (len(names) == 0): #If there are no podcasts then none can be removed
@@ -160,21 +153,20 @@ while True:
                     #Handle the exception
                     print("Not a number")
                     time.sleep(1)
-        elif (response == "4"):
-            #print("Not implemented")
-            names = getPodcasts()
+        elif (response == "4"): #Show Podcasts
+            names = getPodcasts() #Gets the list of podcasts
             if (len(names) == 0):
-                print("No podcasts")
+                print("No podcasts") #If theres no podcasts
             else:
-                print("\nCurrent Podcasts are:")
+                print("\nCurrent Podcasts are:") #Prints podcasts
                 for i in range(0,len(names)):
                     print(str(i+1) + " - " + names[i])
                 print("\n")
             selected = True
             time.sleep(1)
         elif ((response == "Q") | (response == "q")):
-            quit()
-        else:
+            quit() #Quites
+        else: #Catch all for the rest
             print("Not a valid option")
             time.sleep(1)
             

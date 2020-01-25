@@ -102,6 +102,25 @@ def getPodcasts():
     file.close #Closes the file
     return names
 
+#Rechecks the .feeds file and returns the list of urls
+#This is incase the feeds are updated by removal or addition of new podcasts
+def updateFeeds():
+    newFeed = []
+    feedsFileExists = fileUtil.checkFile(".feeds")
+    if (not(feedsFileExists)): #If there is no feeds file
+        print("Creating .feeds file")
+        feedsFile = open(".feeds", 'w') #Creates a new feeds file
+        feedsFile.close
+    else: #If there is one it needs to read it
+        print("Reading feeds file")
+        feedsFile = open(".feeds", 'r') #Opens the feeds file
+        for line in feedsFile: #Loops each line
+            splitLine = line.split(',') #Splits it on commas
+            newFeed.append(splitLine[0]) #Gets the RSS which is in the first position of each line
+        feedsFile.close()
+    
+    return newFeed
+
 
 
 ##Main
@@ -113,21 +132,7 @@ print("Starting Bean Scraper") #Welcome Line
 
 #Start up operations before start
 #Data structure and variable creation
-feeds = [] #Contains the URL of each feed read from the .feeds file
-
-#First check for the rss feeds file
-feedsFileExists = fileUtil.checkFile(".feeds")
-if (not(feedsFileExists)): #If there is no feeds file
-    print("Creating .feeds file")
-    feedsFile = open(".feeds", 'w') #Creates a new feeds file
-    feedsFile.close
-else: #If there is one it needs to read it
-    print("Reading feeds file")
-    feedsFile = open(".feeds", 'r') #Opens the feeds file
-    for line in feedsFile: #Loops each line
-        splitLine = line.split(',') #Splits it on commas
-        feeds.append(splitLine[0]) #Gets the RSS which is in the first position of each line
-    feedsFile.close()
+feeds = updateFeeds()
 
 #Rss folder
 feedsFolderExists = fileUtil.checkDir(".rss") #Checks if the folder exists
@@ -150,6 +155,7 @@ while True:
             feedToAdd = input("Enter the URL of the RSS feed\n")
             ##TODO: Some validation? See issue #6
             addPodcast(feedToAdd)
+            feeds = updateFeeds()
             selected = True
         elif (response == "3"): #Remove Podcast
             #TODO: Print All podcasts
@@ -176,6 +182,7 @@ while True:
                     #Handle the exception
                     print("Not a number")
                     time.sleep(1)
+            feeds = updateFeeds()
         elif (response == "4"): #Show Podcasts
             names = getPodcasts() #Gets the list of podcasts
             if (len(names) == 0):

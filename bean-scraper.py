@@ -67,9 +67,11 @@ def addPodcast(url):
     file.writelines(url + "," + name + "\n")
     file.close
 
+#Takes a validated number and then must remove the (number -1)th line of .feeds
 def removePodcast(number):
-    print("Not Implemented")
-
+    print("Remove Not Implemented")
+    return
+    
 #Returns a list of names from the .feeds file
 def getPodcasts():
     file = open(".feeds", 'r') #opens file to read it

@@ -74,7 +74,7 @@ def updatePodcastXML(url):
             print("Fetching new file: " + url[0])
             webUtil.downloadFile(url[1], name + "/" + url[0]) #Download the file to the correct location
         else:
-            print("file exists:" + url[0]) #If its already downloaded then nothing happens
+            #print("file exists:" + url[0]) #If its already downloaded then nothing happens
 
 ##Functions for running the menu
 
@@ -149,7 +149,8 @@ while True:
         print("1 - Update Podcasts\n2 - Add a Podcast\n3 - Remove a Podcast\n4 - Show current Podcasts\nQ - Quit")
         response = input("Select an option\n")
         if (response == "1"):
-            print("Not implemented")
+            for feed in feeds:
+                updatePodcastXML(feed)
             selected = True
         elif (response == "2"): #Add Podcast
             feedToAdd = input("Enter the URL of the RSS feed\n")

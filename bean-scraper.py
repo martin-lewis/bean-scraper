@@ -1,3 +1,21 @@
+"""
+    Bean Scraper - Main file
+    Copyright (C) 2019-2020  Martin Lewis
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+"""
+
 #Imports for the utility files, they contain an interface for dealing with the internet and file system
 import FileUtilities as fileUtil
 import WebUtilities as webUtil
@@ -87,7 +105,10 @@ def getPodcasts():
 
 
 ##Main
-
+#Licence Notice
+print("Bean Scraper  Copyright (C) 2019-2020  Martin Lewis\nThis program comes with ABSOLUTELY NO WARRANTY; for details type \'w\'")
+print("This is free software, and you are welcome to redistribute it under certain conditions; type \'c\' for details.\n")
+time.sleep(1)
 print("Starting Bean Scraper") #Welcome Line
 
 #Start up operations before start
@@ -167,7 +188,30 @@ while True:
             selected = True
             time.sleep(1)
         elif ((response == "Q") | (response == "q")):
-            quit() #Quites
+            quit() #Quits
+        elif ((response == "W") | (response == "w")): #Warranty Information
+            print(
+                """
+GPL-3.0
+
+15. Disclaimer of Warranty.
+
+THERE IS NO WARRANTY FOR THE PROGRAM, TO THE EXTENT PERMITTED BY
+APPLICABLE LAW.  EXCEPT WHEN OTHERWISE STATED IN WRITING THE COPYRIGHT
+HOLDERS AND/OR OTHER PARTIES PROVIDE THE PROGRAM "AS IS" WITHOUT WARRANTY
+OF ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING, BUT NOT LIMITED TO,
+THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+PURPOSE.  THE ENTIRE RISK AS TO THE QUALITY AND PERFORMANCE OF THE PROGRAM
+IS WITH YOU.  SHOULD THE PROGRAM PROVE DEFECTIVE, YOU ASSUME THE COST OF
+ALL NECESSARY SERVICING, REPAIR OR CORRECTION.
+
+                """
+            )
+            time.sleep(1)
+        elif ((response == "C") | (response == "c")): #Copyright Information
+            print("\nPlease see the relevent section of the GPL-3.0 which should be contained with this file")
+            print("Otherwise it can be found at https://www.gnu.org/licenses/gpl-3.0.html\n")
+            time.sleep(1)
         else: #Catch all for the rest
             print("Not a valid option")
             time.sleep(1)

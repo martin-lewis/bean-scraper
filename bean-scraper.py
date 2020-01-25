@@ -28,7 +28,7 @@ import time
 def updatePodcast(rssUrl, podcastName): #Podcast name is in use for a place to put the file, the actual name is in the XML
     #Step one: Get the rss feed downloaded
     print("Downloading rss file for: " + podcastName)
-    webUtil.downloadFile(rssUrl, (".rss/" + podcastName))
+    webUtil.downloadFile(rssUrl, (".rss/" + podcastName), 0)
     #Open the file
     rss = open(".rss/" + podcastName)
     #Look through each line for an audio file
@@ -47,7 +47,7 @@ def updatePodcast(rssUrl, podcastName): #Podcast name is in use for a place to p
         fileAlreadyExists = fileUtil.checkFile(podcastName + "/" + filename) #Check if it has already been downloaded
         if (not(fileAlreadyExists)): #If not
             print("Fetching new file: " + filename)
-            webUtil.downloadFile(url, podcastName + "/" + filename) #Download the file to the correct location
+            webUtil.downloadFile(url, podcastName + "/" + filename, 0) #Download the file to the correct location
         else:
             print("file exists:" + filename) #If its already downloaded then nothing happens
 
@@ -60,8 +60,8 @@ def updatePodcastXML(url):
         print("Error - Podcast has no name...") #If so this is an error
         return
     #Downloading the rss file
-    print("Downloading rss file for: " + name)
-    webUtil.downloadFile(url, (".rss/" + name)) #Downloads the rss file
+    print("\nDownloading rss file for: " + name)
+    webUtil.downloadFile(url, (".rss/" + name), 0) #Downloads the rss file
     urls = fileUtil.getEnclosedLinks(".rss/" + name) #Gets the enclosed links and titles from the file
     #Check for a folder
     podcastFolderExists = fileUtil.checkDir(name)
@@ -72,8 +72,8 @@ def updatePodcastXML(url):
         fileAlreadyExists = fileUtil.checkFile(name + "/" + url[0]) #Checks to see if the file is already downloaded
         if (not(fileAlreadyExists)): #If not
             print("Fetching new file: " + url[0])
-            webUtil.downloadFile(url[1], name + "/" + url[0]) #Download the file to the correct location
-        else:
+            webUtil.downloadFile(url[1], name + "/" + url[0], 0) #Download the file to the correct location
+        #else:
             #print("file exists:" + url[0]) #If its already downloaded then nothing happens
 
 ##Functions for running the menu
@@ -143,7 +143,7 @@ if (not(feedsFolderExists)): #If not creates it
 
 #Main program loop
 while True:
-    print("Welcome to Bean Scraper\nPlease select an option")
+    print("Please select an option")
     selected = False
     while not(selected):
         print("1 - Update Podcasts\n2 - Add a Podcast\n3 - Remove a Podcast\n4 - Show current Podcasts\nQ - Quit")
@@ -152,6 +152,7 @@ while True:
             for feed in feeds:
                 updatePodcastXML(feed)
             selected = True
+            print("\nUpdates Complete\n")
         elif (response == "2"): #Add Podcast
             feedToAdd = input("Enter the URL of the RSS feed\n")
             ##TODO: Some validation? See issue #6

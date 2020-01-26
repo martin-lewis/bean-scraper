@@ -109,11 +109,18 @@ def getEnclosedLinks(filepath):
     foundUrls = [] #List to hold found pairs
     doc = minidom.parse(filepath) #Parses the given file
     for item in doc.getElementsByTagName('item'): #Runs through all items
-        title = item.getElementsByTagName('title')[0].firstChild.data #Gets the title
-        url = item.getElementsByTagName('enclosure')[0].getAttribute('url') #Gets the url
-        title = cleanForLinux(title) #Removes any invalid characters from the title
-        tup = (title, url) #Forms tuple
-        foundUrls.append(tup) #Tuple added to list
+        try:
+            title = item.getElementsByTagName('title')[0].firstChild.data #Gets the title
+            try:
+                url = item.getElementsByTagName('enclosure')[0].getAttribute('url') #Gets the url
+                title = cleanForLinux(title) #Removes any invalid characters from the title
+                tup = (title, url) #Forms tuple
+                foundUrls.append(tup) #Tuple added to list
+            except IndexError: #Catches errors
+                print("Index Error")
+        except IndexError:
+            print("Index Error")
+
     return foundUrls
 
 #Testing

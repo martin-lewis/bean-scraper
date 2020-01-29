@@ -6,3 +6,5 @@ __pycache__/
 .temprss
 podcasturls.txt
 testfile.txt
+*.m4a
+*.mp4

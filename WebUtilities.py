@@ -55,3 +55,21 @@ def findFileName(url):
     for i in range(len(url)-1, 0, -1):
         if (url[i] == '/'):
             return (url[i+1:len(url)])
+
+#Takes a URL and attempts to get the filetype from it
+#Uses a HTTP GET request and the associated header 'Content-Type'
+#Sets .m4a types to .mp4 which is fine as they are exactly the same for this use case
+def getFileType(url):
+    http = urllib3.PoolManager() #Starts the urllib3 stuff
+    r = http.request('GET', url, preload_content=False) #Preload stops it downloading the file as we only want the header
+    header = r.getheader("Content-Type") #Gets the part of the header that contains the file type
+    info = header.split('/')
+    if (info[0] == "audio"):
+        if (info[1] == "mpeg"):
+            return ".mp3"
+        else:
+            return "." + info[1]
+    else:
+        raise ValueError("File is not a Audio File")
+
+#print(getFileType("https://anchor.fm/s/cd90d44/podcast/play/4309349/https%3A%2F%2Fd3ctxlq1ktw2nl.cloudfront.net%2Fstaging%2F2019-7-21%2F21427520-44100-2-7fdaeed8cbe81.m4a"))

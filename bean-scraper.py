@@ -69,10 +69,11 @@ def updatePodcastXML(url):
         os.mkdir(name)
     #Run the urls
     for url in urls:
-        fileAlreadyExists = fileUtil.checkFile(name + "/" + url[0]) #Checks to see if the file is already downloaded
+        filetype = webUtil.getFileType(url[1]) #Gets the filetype of the file the url points to
+        fileAlreadyExists = fileUtil.checkFile(name + "/" + url[0] + filetype) #Checks to see if the file is already downloaded
         if (not(fileAlreadyExists)): #If not
             print("Fetching new file: " + url[0])
-            webUtil.downloadFile(url[1], name + "/" + url[0], 0) #Download the file to the correct location
+            webUtil.downloadFile(url[1], name + "/" + url[0] + filetype, 0) #Download the file to the correct location
         #else:
             #print("file exists:" + url[0]) #If its already downloaded then nothing happens
 

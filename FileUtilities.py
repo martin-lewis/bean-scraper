@@ -123,12 +123,12 @@ def cleanForWindows(name):
 
     #Removes any double spaces
     i = 0
-    while (i < len(validChars)-1):
+    while (i < len(validChars)-1): #While needed as the len(validChars) changes as things are removed
         #print(i)
-        if ((validChars[i] == ' ') & (validChars[i+1] == ' ')):
-            validChars = validChars[:i+1] + validChars[i+2:]
+        if ((validChars[i] == ' ') & (validChars[i+1] == ' ')): #If there is a space next to another space
+            validChars = validChars[:i+1] + validChars[i+2:] #Remove one space
         else:
-            i = i +1
+            i = i +1 #Otherwise we move to the next space
 
     return validChars
 
@@ -170,4 +170,4 @@ def getEnclosedLinks(filepath):
     return foundUrls
 
 #Testing
-#print(cleanForWindows("Triforce! #108: Banano in Mama Mia") + "|")
+#print(cleanForWindows("Triforce! #108:  in Mama Mia") + "|")

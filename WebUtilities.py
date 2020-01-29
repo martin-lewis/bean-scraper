@@ -63,13 +63,13 @@ def getFileType(url):
     http = urllib3.PoolManager() #Starts the urllib3 stuff
     r = http.request('GET', url, preload_content=False) #Preload stops it downloading the file as we only want the header
     header = r.getheader("Content-Type") #Gets the part of the header that contains the file type
-    info = header.split('/')
-    if (info[0] == "audio"):
+    info = header.split('/') #Splits the MIME into its two parts
+    if (info[0] == "audio"): #If its audio
         if (info[1] == "mpeg"):
-            return ".mp3"
+            return ".mp3" #If its mpeg then its an .mp3 file
         else:
-            return "." + info[1]
+            return "." + info[1] #Otherwise the file type is just whats given plus a .
     else:
-        raise ValueError("File is not a Audio File")
+        raise ValueError("File is not a Audio File") #Not currently set up to handle anything that isn't an audio file
 
 #print(getFileType("https://anchor.fm/s/cd90d44/podcast/play/4309349/https%3A%2F%2Fd3ctxlq1ktw2nl.cloudfront.net%2Fstaging%2F2019-7-21%2F21427520-44100-2-7fdaeed8cbe81.m4a"))

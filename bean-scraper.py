@@ -104,7 +104,7 @@ def getPodcasts():
     return names
 
 #Rechecks the .feeds file and returns the list of urls
-#This is incase the feeds are updated by removal or addition of new podcasts
+#This is in case the feeds are updated by removal or addition of new podcasts
 def updateFeeds():
     newFeed = []
     feedsFileExists = fileUtil.checkFile(".feeds")
@@ -189,7 +189,7 @@ while True:
         elif (response == "4"): #Show Podcasts
             names = getPodcasts() #Gets the list of podcasts
             if (len(names) == 0):
-                print("No podcasts") #If theres no podcasts
+                print("No podcasts") #If there's no podcasts
             else:
                 print("\nCurrent Podcasts are:") #Prints podcasts
                 for i in range(0,len(names)):
@@ -219,7 +219,7 @@ ALL NECESSARY SERVICING, REPAIR OR CORRECTION.
             )
             time.sleep(1)
         elif ((response == "C") | (response == "c")): #Copyright Information
-            print("\nPlease see the relevent section of the GPL-3.0 which should be contained with this file")
+            print("\nPlease see the relevant section of the GPL-3.0 which should be contained with this file")
             print("Otherwise it can be found at https://www.gnu.org/licenses/gpl-3.0.html\n")
             time.sleep(1)
         else: #Catch all for the rest

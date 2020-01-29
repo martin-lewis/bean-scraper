@@ -55,7 +55,7 @@ def updatePodcast(rssUrl, podcastName): #Podcast name is in use for a place to p
 def updatePodcastXML(url):
     #First get the podcasts name
     name = fileUtil.getPodcastName(url) #Gets the name from the url
-    name = fileUtil.cleanForLinux(name) #Removes any characters from a name that are invalid in linux
+    name = fileUtil.cleanForWindows(name) #Removes any characters from a name that are invalid in linux
     if (name == None): #Checks if it has found no name
         print("Error - Podcast has no name...") #If so this is an error
         return
@@ -83,7 +83,7 @@ def updatePodcastXML(url):
 #Just adds the given string to the file along with the name of the podcast
 def addPodcast(url):
     name = fileUtil.getPodcastName(url) #Gets the name of the podcast
-    name = fileUtil.cleanForLinux(name) #Removes invalid characters
+    name = fileUtil.cleanForWindows(name) #Removes invalid characters
     file = open(".feeds", 'a')
     file.writelines(url + "," + name + "\n")
     file.close

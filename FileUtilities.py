@@ -86,6 +86,52 @@ def cleanForLinux(name):
             validChars = validChars + char
     return validChars
 
+#Takes a name and removes all the characters that windows will not want to deal with
+#Mostly replaces them with spaces
+def cleanForWindows(name):
+    validChars = ""
+    for char in name:
+        val = ord(char)
+        if (val == 33):
+            validChars = validChars + " " #Replaces ! with a Space
+        elif (val == 34):
+            validChars = validChars + " " #Replaces " with a Space
+        elif (val == 42):
+            validChars = validChars + " " #Replaces * with a Space
+        elif (val == 47):
+            validChars = validChars + " " #Replaces / with a Space
+        elif (val == 58):
+            validChars = validChars + " " #Replaces : with a Space (Replace with ;)
+        elif (val == 60):
+            validChars = validChars + " " #Replaces < with a Space
+        elif (val == 62):
+            validChars = validChars + " " #Replaces > with a Space
+        elif (val == 63):
+            validChars = validChars + " " #Replaces ? with a Space
+        elif (val == 92):
+            validChars = validChars + " " #Replaces \ with a Space
+        elif (val == 124):
+            validChars = validChars + " " #Replaces | with a Space
+        elif ((val >= 32) & (val <= 122)): #Allows all unicode characters 32 to 122
+            validChars = validChars + char
+        else:
+            validChars = validChars + " " #Anything else is replaced with a space
+    
+    #Removes any spaces or .s that are on the end of a file name
+    while ((validChars[len(validChars) -1] == ' ') | (validChars[len(validChars) -1] == '.')):
+        validChars = validChars[:len(validChars)-1]
+
+    #Removes any double spaces
+    i = 0
+    while (i < len(validChars)-1):
+        #print(i)
+        if ((validChars[i] == ' ') & (validChars[i+1] == ' ')):
+            validChars = validChars[:i+1] + validChars[i+2:]
+        else:
+            i = i +1
+
+    return validChars
+
 
 
 
@@ -113,7 +159,7 @@ def getEnclosedLinks(filepath):
             title = item.getElementsByTagName('title')[0].firstChild.data #Gets the title
             try:
                 url = item.getElementsByTagName('enclosure')[0].getAttribute('url') #Gets the url
-                title = cleanForLinux(title) #Removes any invalid characters from the title
+                title = cleanForWindows(title) #Removes any invalid characters from the title
                 tup = (title, url) #Forms tuple
                 foundUrls.append(tup) #Tuple added to list
             except IndexError: #Catches errors
@@ -124,11 +170,4 @@ def getEnclosedLinks(filepath):
     return foundUrls
 
 #Testing
-"""
-print("Starting Test")
-results = getEnclosedLinks(".rss/Qu")
-for result in results:
-    print(result[0])
-    print(result[1])
-"""
-#removeLine(6, "testfile.txt")
+#print(cleanForWindows("Triforce! #108: Banano in Mama Mia") + "|")

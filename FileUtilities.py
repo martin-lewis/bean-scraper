@@ -20,6 +20,7 @@
 import os
 from xml.dom import minidom #Imports the XML parser
 from WebUtilities import downloadFile #Imports the file downloader
+import sys
 
 #Checks to see if a file exists
 #Very simple for now as it just calls the os method but it might need to be expanded later hence the interface
@@ -142,10 +143,14 @@ def cleanForWindows(name):
 #If the code does not find a title then it will return 'None'
 def getPodcastName(url):
     downloadFile(url, ".temprss", 1) #Downloads the rss temporarily in order to view it for its title
-    doc = minidom.parse(".temprss") #Parses the downloaded file
-    for node in doc.getElementsByTagName('channel'): #Access the channel element
-        for node1 in node.getElementsByTagName('title'): #Accesses the title elements within the channel
-            return node1.firstChild.data #Returns the first title element which should be the title of the podcast
+    try:
+        doc = minidom.parse(".temprss") #Parses the downloaded file
+        for node in doc.getElementsByTagName('channel'): #Access the channel element
+            for node1 in node.getElementsByTagName('title'): #Accesses the title elements within the channel
+                return node1.firstChild.data #Returns the first title element which should be the title of the podcast
+    except:
+        print("\nError of type: " + str(sys.exc_info()[0]))
+        return None
 
 #Given a filepath it will locate any urls within enclose tags
 #This assumes that only files exist in enclose tags and that no files exist outside enclose tags

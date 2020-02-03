@@ -24,38 +24,6 @@ import time
 
 ##Functions
 
-#Takes a url of a rss feed and updates the local files
-def updatePodcast(rssUrl, podcastName): #Podcast name is in use for a place to put the file, the actual name is in the XML
-    #Step one: Get the rss feed downloaded
-    print("Downloading rss file for: " + podcastName)
-    success = webUtil.downloadFile(rssUrl, (".rss/" + podcastName), 0)
-    if (success == None):
-        print("Error in updating podcast")
-        return
-    #Open the file
-    rss = open(".rss/" + podcastName)
-    #Look through each line for an audio file
-    urls =[] #List for found urls
-    for line in rss: #for each line
-        result = webUtil.fileUrlScraper(line) #Check for file urls
-        if (result != None): #If a result is returned then
-            urls.append(result) #Added to list
-    #Make sure there is a folder to hold them
-    podcastFolderExists = fileUtil.checkDir(podcastName)
-    if (not(podcastFolderExists)):
-        os.mkdir(podcastName)
-    #Downloads the files
-    for url in urls:
-        filename = webUtil.findFileName(url) #Find the file name from the url
-        fileAlreadyExists = fileUtil.checkFile(podcastName + "/" + filename) #Check if it has already been downloaded
-        if (not(fileAlreadyExists)): #If not
-            print("Fetching new file: " + filename)
-            success = webUtil.downloadFile(url, podcastName + "/" + filename, 0) #Download the file to the correct location
-            if (success == None):
-                print ("Error - " + filename + " not downloaded")
-        else:
-            print("file exists:" + filename) #If its already downloaded then nothing happens
-
 #Takes the url of a podcast and updates the local files
 def updatePodcastXML(url):
     #First get the podcasts name

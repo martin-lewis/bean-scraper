@@ -43,40 +43,6 @@ def removeLine(lineNo, filepath):
     del lines[lineNo-1]
     file1.writelines(lines)
 
-
-#Takes a string and checks if there are any illegal characters for a file path
-#Somewhat basic
-def filePathCompliant(path):
-    for char in path:
-        if (char == '<'):
-            print("Illegal Character '<'")
-            return False
-        elif (char == '>'):
-            print("Illegal Character '>'")
-            return False
-        elif (char == ':'):
-            print("Illegal Character ':'")
-            return False
-        elif (char == '\"'):
-            print("Illegal Character '\"'")
-            return False
-        elif (char == '/'):
-            print("Illegal Character '/'")
-            return False
-        elif (char == '\\'):
-            print("Illegal Character '\\'")
-            return False
-        elif (char == '|'):
-            print("Illegal Character '|'")
-            return False
-        elif (char == '?'):
-            print("Illegal Character '?'")
-            return False
-        elif (char == '*'):
-            print("Illegal Character '*'")
-            return False
-    return True
-
 #Takes a name which would become part of a file path and removes invalid stuff
 #Here we define invalid as not a-z 0-9 or select punctuation
 def cleanForLinux(name):

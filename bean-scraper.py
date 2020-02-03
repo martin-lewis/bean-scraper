@@ -28,7 +28,10 @@ import time
 def updatePodcast(rssUrl, podcastName): #Podcast name is in use for a place to put the file, the actual name is in the XML
     #Step one: Get the rss feed downloaded
     print("Downloading rss file for: " + podcastName)
-    webUtil.downloadFile(rssUrl, (".rss/" + podcastName), 0)
+    success = webUtil.downloadFile(rssUrl, (".rss/" + podcastName), 0)
+    if (success == None):
+        print("Error in updating podcast")
+        return
     #Open the file
     rss = open(".rss/" + podcastName)
     #Look through each line for an audio file
@@ -47,7 +50,9 @@ def updatePodcast(rssUrl, podcastName): #Podcast name is in use for a place to p
         fileAlreadyExists = fileUtil.checkFile(podcastName + "/" + filename) #Check if it has already been downloaded
         if (not(fileAlreadyExists)): #If not
             print("Fetching new file: " + filename)
-            webUtil.downloadFile(url, podcastName + "/" + filename, 0) #Download the file to the correct location
+            success = webUtil.downloadFile(url, podcastName + "/" + filename, 0) #Download the file to the correct location
+            if (success == None):
+                print ("Error - " + filename + " not downloaded")
         else:
             print("file exists:" + filename) #If its already downloaded then nothing happens
 
@@ -61,7 +66,10 @@ def updatePodcastXML(url):
     name = fileUtil.cleanForWindows(name) #Removes any characters from a name that are invalid in linux
     #Downloading the rss file
     print("\nDownloading rss file for: " + name)
-    webUtil.downloadFile(url, (".rss/" + name), 0) #Downloads the rss file
+    success = webUtil.downloadFile(url, (".rss/" + name), 0) #Downloads the rss file
+    if (success == None):
+        print("Error in updating podcast")
+        return
     urls = fileUtil.getEnclosedLinks(".rss/" + name) #Gets the enclosed links and titles from the file
     #Check for a folder
     podcastFolderExists = fileUtil.checkDir(name)
@@ -70,10 +78,15 @@ def updatePodcastXML(url):
     #Run the urls
     for url in urls:
         filetype = webUtil.getFileType(url[1]) #Gets the filetype of the file the url points to
+        if (filetype == None):
+            print("Error Downloading file")
+            continue
         fileAlreadyExists = fileUtil.checkFile(name + "/" + url[0] + filetype) #Checks to see if the file is already downloaded
         if (not(fileAlreadyExists)): #If not
             print("Fetching new file: " + url[0])
-            webUtil.downloadFile(url[1], name + "/" + url[0] + filetype, 0) #Download the file to the correct location
+            success = webUtil.downloadFile(url[1], name + "/" + url[0] + filetype, 0) #Download the file to the correct location
+            if (success == None):
+                print("Error - File not downloaded")
         #else:
             #print("file exists:" + url[0]) #If its already downloaded then nothing happens
 

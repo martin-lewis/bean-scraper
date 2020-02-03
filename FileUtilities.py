@@ -142,7 +142,9 @@ def cleanForWindows(name):
 #Makes the assumption the title is in element 'title' within a 'channel' element which is the child of the root node
 #If the code does not find a title then it will return 'None'
 def getPodcastName(url):
-    downloadFile(url, ".temprss", 1) #Downloads the rss temporarily in order to view it for its title
+    success = downloadFile(url, ".temprss", 1) #Downloads the rss temporarily in order to view it for its title
+    if (success == None):
+        return None
     try:
         doc = minidom.parse(".temprss") #Parses the downloaded file
         for node in doc.getElementsByTagName('channel'): #Access the channel element

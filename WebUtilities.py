@@ -57,7 +57,7 @@ def getFileType(url):
                 return ".mp3" #If its mpeg then its an .mp3 file
             else:
                 return "." + info[1] #Otherwise the file type is just whats given plus a .
-        elif (info[0] == "video")
+        elif (info[0] == "video"):
             if (info[1] == "mp4"):
                 return ".mp4"
             elif (info[1] == "x-mp4"):

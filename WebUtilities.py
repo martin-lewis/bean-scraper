@@ -57,8 +57,15 @@ def getFileType(url):
                 return ".mp3" #If its mpeg then its an .mp3 file
             else:
                 return "." + info[1] #Otherwise the file type is just whats given plus a .
+        elif (info[0] == "video")
+            if (info[1] == "mp4"):
+                return ".mp4"
+            elif (info[1] == "x-mp4"):
+                return ".mp4"
+            else:
+                raise ValueError("Incompatible file type, only .mp4's are acceptable as video types at this time")
         else:
-            raise ValueError("File is not a Audio File") #Not currently set up to handle anything that isn't an audio file
+            raise ValueError("File is not a Video/Audio File") #Not currently set up to handle anything that isn't an audio file
     except:
         print("\nError of type: " + str(sys.exc_info()[0]))
         return None

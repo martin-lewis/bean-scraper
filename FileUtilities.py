@@ -25,12 +25,12 @@ import sys
 #Checks to see if a file exists
 #Very simple for now as it just calls the os method but it might need to be expanded later hence the interface
 def checkFile(filepath):
-    return os.path.isfile(filepath)
+    return os.path.isfile(str(filepath))
 
 #Similar to the above function but for a directory
 #Implementation may need changing but works ok, will currently recognise files
 def checkDir(dirpath):
-    return os.path.exists(dirpath)
+    return os.path.exists(str(dirpath))
 
 #Removes the given line from a file
 def removeLine(lineNo, filepath):

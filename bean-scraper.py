@@ -21,6 +21,7 @@ import FileUtilities as fileUtil
 import WebUtilities as webUtil
 import os
 import time
+from pathlib import Path
 
 ##Functions
 
@@ -33,12 +34,13 @@ def updatePodcastXML(url):
         return
     name = fileUtil.cleanForWindows(name) #Removes any characters from a name that are invalid in linux
     #Downloading the rss file
+    rssFilepath = Path(".rss/" + name)
     print("\nDownloading rss file for: " + name)
-    success = webUtil.downloadFile(url, (".rss/" + name), 0) #Downloads the rss file
+    success = webUtil.downloadFile(url, rssFilepath, 0) #Downloads the rss file
     if (success == None):
         print("Error in updating podcast")
         return
-    urls = fileUtil.getEnclosedLinks(".rss/" + name) #Gets the enclosed links and titles from the file
+    urls = fileUtil.getEnclosedLinks(str(rssFilepath)) #Gets the enclosed links and titles from the file
     #Check for a folder
     podcastFolderExists = fileUtil.checkDir(name)
     if (not(podcastFolderExists)):
@@ -46,13 +48,14 @@ def updatePodcastXML(url):
     #Run the urls
     for url in urls:
         filetype = webUtil.getFileType(url[1]) #Gets the filetype of the file the url points to
+        filePath = Path(name + "/" + url[0] + filetype) #Generates the filepath for where the new file will go
         if (filetype == None):
             print("Error Downloading file")
             continue
-        fileAlreadyExists = fileUtil.checkFile(name + "/" + url[0] + filetype) #Checks to see if the file is already downloaded
+        fileAlreadyExists = fileUtil.checkFile(filePath) #Checks to see if the file is already downloaded
         if (not(fileAlreadyExists)): #If not
             print("Fetching new file: " + url[0])
-            success = webUtil.downloadFile(url[1], name + "/" + url[0] + filetype, 0) #Download the file to the correct location
+            success = webUtil.downloadFile(url[1], filePath, 0) #Download the file to the correct location
             if (success == None):
                 print("Error - File not downloaded")
         #else:

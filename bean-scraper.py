@@ -39,7 +39,7 @@ def updatePodcastXML(url):
     rssFilepath = Path(".rss/" + name)
     print("\nDownloading rss file for: " + name)
     success = webUtil.downloadFileStream(url, rssFilepath, 0) #Downloads the rss file
-    if (success == None):
+    if (success == False):
         print("Error in updating podcast")
         return
     else:

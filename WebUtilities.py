@@ -22,17 +22,18 @@ import sys
 
 #Takes a url and a filepath and downloads the file to that filepath
 #Note the file path must contain the filetype, runs from root folder (i.e. location of scripts)
-#The third parameter if set to 1 will suppress the print statements in the method
+#The third parameter if set to 1 will suppress the print statements, that are not as a result of errors, in the method
 def downloadFile(url, filepath, suppressed):
     try:
         if (suppressed != 1):
-            print("Downloading --") #Start message, should contain info on what is being downloaded?
+            print("Downloading --") #Start message
         http = urllib3.PoolManager() #Starts the PoolManager
         r = http.request('GET', url) #'gets' the file
         if (r.status == 200): #If the status is good
-            file = open(filepath, 'wb') #Creates the file
-            file.write(r.data) #Writes the data to the file
-            file.close #Closes the file
+            file1 = open(filepath, 'wb') #Creates the file
+            file1.write(r.data) #Writes the data to the file
+            file1.close #Closes the file
+            r.release_conn()
             if (suppressed != 1) :
                 print("Download Complete") #Ending message
             return True
@@ -41,6 +42,32 @@ def downloadFile(url, filepath, suppressed):
             return False
     except:
         print("\nError of type: " + str(sys.exc_info()[0]))
+        return False
+
+#Takes a url and a filepath and downloads the file to that filepath
+#Note the file path must contain the filetype, runs from root folder (i.e. location of scripts)
+#The third parameter if set to 1 will suppress the print statements, that are not as a result of errors, in the method
+#This method uses a streamed version which means it downloads it in small chunks, having a smaller affect on the memory
+def downloadFileStream(url, filepath, suppressed):
+    try:
+        if (suppressed != 1):
+            print("Downloading --") #Start message
+        http = urllib3.PoolManager() #Starts the PoolManager
+        r = http.request('GET', url, preload_content=False) #Gets the file but does not start downloading it
+        if (r.status == 200): #If the status is good
+            file1 = open(filepath, 'wb') #Creates the file
+            for chunk in r.stream(): #Now downloads the file in chunks of 2**16 bytes (default)
+                file1.write(chunk) #Writes the current data
+            file1.close #Closes the file
+            r.release_conn() #Releases the connection as all the data has been downloaded
+            if (suppressed != 1) :
+                print("Download Complete") #Ending message
+            return True
+        else:
+            print("Error in download, status code: " + str(r.status)) #If it fails, error code returned
+            return False
+    except:
+        print("\nError of type: " + str(sys.exc_info()[0])) #Catch all for other errors
         return False
 
 #Takes a URL and attempts to get the filetype from it

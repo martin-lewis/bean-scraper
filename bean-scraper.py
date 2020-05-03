@@ -38,7 +38,7 @@ def updatePodcastXML(url):
     #Downloading the rss file
     rssFilepath = Path(".rss/" + name)
     print("\nDownloading rss file for: " + name)
-    success = webUtil.downloadFile(url, rssFilepath, 0) #Downloads the rss file
+    success = webUtil.downloadFileStream(url, rssFilepath, 0) #Downloads the rss file
     if (success == None):
         print("Error in updating podcast")
         return
@@ -59,7 +59,7 @@ def updatePodcastXML(url):
         fileAlreadyExists = fileUtil.checkFile(filePath) #Checks to see if the file is already downloaded
         if (not(fileAlreadyExists)): #If not
             print("Fetching new file: " + url[0])
-            success = webUtil.downloadFile(url[1], filePath, 0) #Download the file to the correct location
+            success = webUtil.downloadFileStream(url[1], filePath, 0) #Download the file to the correct location
             if (success == None):
                 print("Error - File not downloaded")
         #else:

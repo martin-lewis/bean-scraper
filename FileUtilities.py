@@ -19,7 +19,7 @@
 #File to contain relevant interfaces for the bean-scraper file and the file system of the machine it runs on
 import os
 from xml.dom import minidom #Imports the XML parser
-from WebUtilities import downloadFile #Imports the file downloader
+from WebUtilities import downloadFileStream #Imports the file downloader
 import sys
 
 #Checks to see if a file exists
@@ -108,7 +108,7 @@ def cleanForWindows(name):
 #Makes the assumption the title is in element 'title' within a 'channel' element which is the child of the root node
 #If the code does not find a title then it will return 'None'
 def getPodcastName(url):
-    success = downloadFile(url, ".temprss", 1) #Downloads the rss temporarily in order to view it for its title
+    success = downloadFileStream(url, ".temprss", 1) #Downloads the rss temporarily in order to view it for its title
     if (success == None):
         return None
     try:

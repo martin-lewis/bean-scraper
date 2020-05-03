@@ -40,6 +40,8 @@ def updatePodcastXML(url):
     if (success == None):
         print("Error in updating podcast")
         return
+    else:
+        print("Checking for new episodes")
     urls = fileUtil.getEnclosedLinks(str(rssFilepath)) #Gets the enclosed links and titles from the file
     #Check for a folder
     podcastFolderExists = fileUtil.checkDir(name)

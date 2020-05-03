@@ -17,6 +17,8 @@
 """
 
 #Imports for the utility files, they contain an interface for dealing with the internet and file system
+import sys
+sys.dont_write_bytecode = True #Prevents the __pycahce__ folder being created, that folder only confuses the folder structure
 import FileUtilities as fileUtil
 import WebUtilities as webUtil
 import os

@@ -55,7 +55,7 @@ def downloadFileStream(url, filepath, suppressed):
         http = urllib3.PoolManager() #Starts the PoolManager
         r = http.request('GET', url, preload_content=False) #Gets the file but does not start downloading it
         if (r.status == 200): #If the status is good
-            file1 = open(filepath, 'wb') #Creates the file
+            file1 = open(str(filepath), 'wb') #Creates the file
             for chunk in r.stream(): #Now downloads the file in chunks of 2**16 bytes (default)
                 file1.write(chunk) #Writes the current data
             file1.close #Closes the file

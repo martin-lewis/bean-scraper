@@ -20,12 +20,23 @@
 import os
 from xml.dom import minidom #Imports the XML parser
 from WebUtilities import downloadFileStream #Imports the file downloader
+from pathlib import Path
 import sys
 
 #Checks to see if a file exists
 #Very simple for now as it just calls the os method but it might need to be expanded later hence the interface
+#Accepts strings or pathlib paths
 def checkFile(filepath):
     return os.path.isfile(str(filepath))
+
+#Checks to see if a file of the given name exists, does not care about the file type
+#Expects a pathlib.Path object without a file type
+def checkFileSansType(filepath):
+    dire= filepath.parent #Gets the directory in which we are looking
+    for name in dire.iterdir(): #Gets all things in the directory
+        if filepath.name == name.stem: #Compares the stems (i.e. file names without types) of the items in directory and the given file
+            return True #If its there we return true
+    return False #If we cant find it then return false
 
 #Similar to the above function but for a directory
 #Implementation may need changing but works ok, will currently recognise files
@@ -141,6 +152,3 @@ def getEnclosedLinks(filepath):
             print("Index Error")
 
     return foundUrls
-
-#Testing
-#print(cleanForWindows("Triforce! #108:  in Mama Mia") + "|")

@@ -114,12 +114,96 @@ def updateFeeds():
     
     return newFeed
 
+def interactive():
+    while True:
+        print("Please select an option")
+        selected = False
+        while not(selected):
+            print("1 - Update Podcasts\n2 - Add a Podcast\n3 - Remove a Podcast\n4 - Show current Podcasts\nQ - Quit")
+            response = input("Select an option\n")
+            if (response == "1"):
+                for feed in feeds:
+                    updatePodcastXML(feed)
+                selected = True
+                print("\nUpdates Complete\n")
+            elif (response == "2"): #Add Podcast
+                feedToAdd = input("Enter the URL of the RSS feed\n")
+                ##TODO: Some validation? See issue #6
+                addPodcast(feedToAdd)
+                feeds = updateFeeds()
+                selected = True
+            elif (response == "3"): #Remove Podcast
+                #TODO: Print All podcasts
+                names = getPodcasts()
+                if (len(names) == 0): #If there are no podcasts then none can be removed
+                    print("No podcasts")
+                    time.sleep(1)
+                    selected = True
+                else: #If there are podcasts
+                    print("Current Podcasts are:")
+                    for i in range(0,len(names)):
+                        print(str(i+1) + " - " + names[i]) #Prints current podcasts
+                    toRemove = input("Select which podcast to remove\n") #Take a value representing which to remove
+                    try:
+                        val = int(toRemove)
+                        if ((val > 0) & (val <= len(names))):
+                            removePodcast(val)
+                            selected = True
 
+                        else:
+                            print("Not a valid number")
+                            time.sleep(1)
+                    except ValueError:
+                        #Handle the exception
+                        print("Not a number")
+                        time.sleep(1)
+                feeds = updateFeeds()
+            elif (response == "4"): #Show Podcasts
+                names = getPodcasts() #Gets the list of podcasts
+                if (len(names) == 0):
+                    print("No podcasts") #If there's no podcasts
+                else:
+                    print("\nCurrent Podcasts are:") #Prints podcasts
+                    for i in range(0,len(names)):
+                        print(str(i+1) + " - " + names[i])
+                    print("\n")
+                selected = True
+                time.sleep(1)
+            elif ((response == "Q") | (response == "q")):
+                quit() #Quits
+            elif ((response == "W") | (response == "w")): #Warranty Information
+                print(
+                    """
+        GPL-3.0
+
+        15. Disclaimer of Warranty.
+
+        THERE IS NO WARRANTY FOR THE PROGRAM, TO THE EXTENT PERMITTED BY
+        APPLICABLE LAW.  EXCEPT WHEN OTHERWISE STATED IN WRITING THE COPYRIGHT
+        HOLDERS AND/OR OTHER PARTIES PROVIDE THE PROGRAM "AS IS" WITHOUT WARRANTY
+        OF ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING, BUT NOT LIMITED TO,
+        THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+        PURPOSE.  THE ENTIRE RISK AS TO THE QUALITY AND PERFORMANCE OF THE PROGRAM
+        IS WITH YOU.  SHOULD THE PROGRAM PROVE DEFECTIVE, YOU ASSUME THE COST OF
+        ALL NECESSARY SERVICING, REPAIR OR CORRECTION.
+
+                    """
+                )
+                time.sleep(1)
+            elif ((response == "C") | (response == "c")): #Copyright Information
+                print("\nPlease see the relevant section of the GPL-3.0 which should be contained with this file")
+                print("Otherwise it can be found at https://www.gnu.org/licenses/gpl-3.0.html\n")
+                time.sleep(1)
+            else: #Catch all for the rest
+                print("Not a valid option")
+                time.sleep(1)
 
 ##Main
 #Licence Notice
 print("Bean Scraper  Copyright (C) 2019-2020  Martin Lewis\nThis program comes with ABSOLUTELY NO WARRANTY; for details type \'w\'")
 print("This is free software, and you are welcome to redistribute it under certain conditions; type \'c\' for details.\n")
+
+
 time.sleep(1)
 print("Starting Bean Scraper") #Welcome Line
 
@@ -133,89 +217,9 @@ if (not(feedsFolderExists)): #If not creates it
     print("Making folder")
     os.mkdir(".rss")
 
-
-#Main program loop
-while True:
-    print("Please select an option")
-    selected = False
-    while not(selected):
-        print("1 - Update Podcasts\n2 - Add a Podcast\n3 - Remove a Podcast\n4 - Show current Podcasts\nQ - Quit")
-        response = input("Select an option\n")
-        if (response == "1"):
-            for feed in feeds:
-                updatePodcastXML(feed)
-            selected = True
-            print("\nUpdates Complete\n")
-        elif (response == "2"): #Add Podcast
-            feedToAdd = input("Enter the URL of the RSS feed\n")
-            ##TODO: Some validation? See issue #6
-            addPodcast(feedToAdd)
-            feeds = updateFeeds()
-            selected = True
-        elif (response == "3"): #Remove Podcast
-            #TODO: Print All podcasts
-            names = getPodcasts()
-            if (len(names) == 0): #If there are no podcasts then none can be removed
-                print("No podcasts")
-                time.sleep(1)
-                selected = True
-            else: #If there are podcasts
-                print("Current Podcasts are:")
-                for i in range(0,len(names)):
-                    print(str(i+1) + " - " + names[i]) #Prints current podcasts
-                toRemove = input("Select which podcast to remove\n") #Take a value representing which to remove
-                try:
-                    val = int(toRemove)
-                    if ((val > 0) & (val <= len(names))):
-                        removePodcast(val)
-                        selected = True
-
-                    else:
-                        print("Not a valid number")
-                        time.sleep(1)
-                except ValueError:
-                    #Handle the exception
-                    print("Not a number")
-                    time.sleep(1)
-            feeds = updateFeeds()
-        elif (response == "4"): #Show Podcasts
-            names = getPodcasts() #Gets the list of podcasts
-            if (len(names) == 0):
-                print("No podcasts") #If there's no podcasts
-            else:
-                print("\nCurrent Podcasts are:") #Prints podcasts
-                for i in range(0,len(names)):
-                    print(str(i+1) + " - " + names[i])
-                print("\n")
-            selected = True
-            time.sleep(1)
-        elif ((response == "Q") | (response == "q")):
-            quit() #Quits
-        elif ((response == "W") | (response == "w")): #Warranty Information
-            print(
-                """
-GPL-3.0
-
-15. Disclaimer of Warranty.
-
-THERE IS NO WARRANTY FOR THE PROGRAM, TO THE EXTENT PERMITTED BY
-APPLICABLE LAW.  EXCEPT WHEN OTHERWISE STATED IN WRITING THE COPYRIGHT
-HOLDERS AND/OR OTHER PARTIES PROVIDE THE PROGRAM "AS IS" WITHOUT WARRANTY
-OF ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING, BUT NOT LIMITED TO,
-THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
-PURPOSE.  THE ENTIRE RISK AS TO THE QUALITY AND PERFORMANCE OF THE PROGRAM
-IS WITH YOU.  SHOULD THE PROGRAM PROVE DEFECTIVE, YOU ASSUME THE COST OF
-ALL NECESSARY SERVICING, REPAIR OR CORRECTION.
-
-                """
-            )
-            time.sleep(1)
-        elif ((response == "C") | (response == "c")): #Copyright Information
-            print("\nPlease see the relevant section of the GPL-3.0 which should be contained with this file")
-            print("Otherwise it can be found at https://www.gnu.org/licenses/gpl-3.0.html\n")
-            time.sleep(1)
-        else: #Catch all for the rest
-            print("Not a valid option")
-            time.sleep(1)
-            
-    #break
+if (len(sys.argv) > 1):
+    if (sys.argv[1] == "-u"):
+        for feed in feeds:
+            updatePodcastXML(feed)
+else:
+    interactive()
